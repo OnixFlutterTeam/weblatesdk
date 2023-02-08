@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:weblate_sdk/sdk.dart';
+import 'package:weblate_sdk/weblate_sdk.dart';
+
 
 void main() async {
   await WebLateSdk.initialize(

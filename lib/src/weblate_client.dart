@@ -35,7 +35,6 @@ class WebLateClient {
       var decodedLanguages = jsonDecode(utf8.decode(response.bodyBytes));
       try {
         final decodedAsList = decodedLanguages as List;
-        print('decodedLanguages: $decodedLanguages');
         if (decodedAsList.isEmpty) {
           if (kDebugMode) {
             print(
