@@ -1,7 +1,7 @@
 name: weblate_sdk
-description: Unofficial Weblate SDK.
+description: Unofficial WebLate SDK.
 version: 0.0.1
-homepage:
+homepage: https://github.com/cozvtieg9/weblatesdk
 
 environment:
   sdk: '>=2.19.0 <3.0.0'
