@@ -1,6 +1,6 @@
 name: weblate_sdk
 description: Unofficial WebLate SDK.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/cozvtieg9/weblatesdk
 
 environment:
@@ -48,9 +48,7 @@ flutter:
         pluginClass: WeblateSdkPlugin
       windows:
         pluginClass: WeblateSdkPluginCApi
-      web:
-        pluginClass: WeblateSdkWeb
-        fileName: weblate_sdk_web.dart
+
 
   # To add assets to your plugin package, add an assets section, like this:
   # assets:

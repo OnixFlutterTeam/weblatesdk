@@ -48,4 +48,7 @@ localizationsDelegates: [
 `context.localizedValueOf('key')`
 
 
+> Note: Do not forgot to add internet permissions for you platforms
+
+
 

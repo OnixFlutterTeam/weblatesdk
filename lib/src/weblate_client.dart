@@ -30,7 +30,13 @@ class WebLateClient {
           _host,
           url,
         ),
-        headers: {'Authorization': 'Token $_accessKey'},
+        headers: {
+          'Authorization': 'Token $_accessKey',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Headers': 'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
+          'Access-Control-Allow-Methods': 'GET',
+        },
       );
       var decodedLanguages = jsonDecode(utf8.decode(response.bodyBytes));
       try {
@@ -75,7 +81,13 @@ class WebLateClient {
           _host,
           url,
         ),
-        headers: {'Authorization': 'Token $_accessKey'},
+        headers: {
+          'Authorization': 'Token $_accessKey',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Credentials': 'true',
+          'Access-Control-Allow-Headers': 'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
+          'Access-Control-Allow-Methods': 'GET',
+        },
       );
       final decodedTranslations =
           jsonDecode(utf8.decode(response.bodyBytes)) as Map;
