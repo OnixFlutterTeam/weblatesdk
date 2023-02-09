@@ -1,21 +1,21 @@
 # weblate_sdk
 
-Unofficial SDK to use [Weblate](https://weblate.org/) service for a Web-based continuous localization;
+Unofficial SDK to use [Weblate](https://weblate.org/) service for a Web-based continuous
+localization;
 
 Check [Weblate documentation](https://docs.weblate.org/en/latest/) for more details.
 
-
-
 ## Getting Started
 
-1. Add package and localization support to your `pubspec.yaml`:
+**Add package and localization support to your `pubspec.yaml`:**
 
 ```
 weblate_sdk: latest
 flutter_localizations:
     sdk: flutter
 ```
-2. Add initialization to your `main` function:
+
+**Add initialization to your `main` function:**
 
 ```
  await WebLateSdk.initialize(
@@ -24,14 +24,34 @@ flutter_localizations:
     projectName: 'name of project',
     componentName: 'name of component',
     defaultLanguage: 'en', //optional
+    disableCache: false, //optional
+    cacheLive: const Duration(days: 1), //optional
   );
 ```
-> Note: host should be without https:// (for example: `weblate.company.link`;
 
-> If `defaultLanguage` is set then if translation not found for current language 
-> then translation for `defaultLanguage` will be used instead;
+**Parameters description:**
 
-3. Add localization to `MaterialApp`:
+`accessKey` - your access key. You can find
+in [WebLate account](https://docs.weblate.org/en/latest/);
+`host` - your WebLate host url;
+
+> Note: host should be with https:// (for example: `https://weblate.company.link`
+
+`projectName` - your WebLate project name;
+
+`componentName` - your project component name;
+
+`defaultLanguage` - default language to use if key for current language not found.
+
+> If `defaultLanguage` is set then if translation not found for current language
+> then translation for `defaultLanguage` will be used instead
+
+`disableCache` - disable or enable caching. By default cache
+disabled on debug and enabled on release;
+
+`cacheLive` - cache live time. By default 2 hours;
+
+**Add localization to `MaterialApp`:**
 
 ```
 supportedLocales: WebLateSdk.supportedLocales,
@@ -43,7 +63,7 @@ localizationsDelegates: [
       ]
 ```     
 
-4. Use localized strings in your code: 
+**Use localized strings in your code:**
 
 `context.localizedValueOf('key')`
 

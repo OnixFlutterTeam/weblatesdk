@@ -4,17 +4,21 @@ import 'package:weblate_sdk/weblate_sdk.dart';
 
 void main() async {
   await WebLateSdk.initialize(
-    accessKey: 'your key',
-    host: 'your host',
-    projectName: 'project name',
-    componentName: 'component name',
-    defaultLanguage: 'en',
+    accessKey: 'your_weblate_key',
+    host: 'weblate_host',
+    projectName: 'name of project',
+    componentName: 'name of component',
+    defaultLanguage: 'en', //optional
+    disableCache: false, //optional
+    cacheLive: const Duration(days: 1), //optional
   );
   runApp(const MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+  const MyApp({
+    super.key,
+  });
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -37,7 +41,9 @@ class _MyAppState extends State<MyApp> {
 }
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

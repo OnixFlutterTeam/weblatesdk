@@ -1,3 +1,8 @@
+## 0.0.3
+
+* Added localization caching and offline mode
+* Added options to control caching
+
 ## 0.0.2
 
 * Fixed Web compilation
