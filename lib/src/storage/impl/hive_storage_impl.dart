@@ -25,12 +25,9 @@ class HiveStorageImpl extends HiveStorage {
     required String langCode,
   }) async {
     try {
-      final componentBox = await Hive.openBox<Translation>(kTranslationsBox);
-      return componentBox.values
-          .where(
-            (c) => c.componentName == componentName && c.langCode == langCode,
-          )
-          .toList();
+      final componentBox = await Hive.openBox<Translation>(
+          '$kTranslationsBox$componentName$langCode');
+      return componentBox.values.toList();
     } catch (e) {
       if (kDebugMode) {
         print('${Const.storageIOError}: ${e.toString()}');
@@ -56,10 +53,13 @@ class HiveStorageImpl extends HiveStorage {
 
   @override
   Future<void> cacheTranslations({
+    required String componentName,
+    required String langCode,
     required List<Translation> translations,
   }) async {
     try {
-      final translationBox = await Hive.openBox<Translation>(kTranslationsBox);
+      final translationBox = await Hive.openBox<Translation>(
+          '$kTranslationsBox$componentName$langCode');
       await translationBox.clear();
       await translationBox.addAll(translations);
     } catch (e) {
@@ -72,8 +72,16 @@ class HiveStorageImpl extends HiveStorage {
   @override
   Future<bool> hasCachedTranslations({
     required String componentName,
+    required String defaultLanguage,
   }) async {
     final languages = await getCachedLanguages();
-    return languages.isNotEmpty;
+    if (languages.isEmpty) {
+      return false;
+    }
+    final defaultTranslations = await getCachedTranslations(
+      componentName: componentName,
+      langCode: defaultLanguage,
+    );
+    return defaultTranslations.isNotEmpty;
   }
 }

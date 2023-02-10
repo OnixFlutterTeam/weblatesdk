@@ -1,3 +1,8 @@
+## 0.0.4
+
+* Fixed caching issues
+
+* 
 ## 0.0.3
 
 * Added localization caching and offline mode
