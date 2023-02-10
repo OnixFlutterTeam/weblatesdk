@@ -1,3 +1,9 @@
+## 0.0.5
+
+* Fixed issue when using @formal languages
+* Fixed issues when language removed from component
+* Minor code optimizing
+
 ## 0.0.4
 
 * Fixed caching issues

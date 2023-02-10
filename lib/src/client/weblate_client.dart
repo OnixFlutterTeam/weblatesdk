@@ -2,19 +2,17 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:weblate_sdk/src/client/request/component_request.dart';
 import 'package:weblate_sdk/src/client/interceptor/authorization_interceptor.dart';
+import 'package:weblate_sdk/src/client/request/persisted_request.dart';
+import 'package:weblate_sdk/src/client/request/translations_request.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/storage/hive_storage.dart';
-import 'package:weblate_sdk/src/storage/mapper/language_mapper.dart';
-import 'package:weblate_sdk/src/storage/mapper/translation_mapper.dart';
-import 'package:weblate_sdk/src/storage/model/translation_bundle.dart';
 import 'package:weblate_sdk/src/storage/preferences_storage.dart';
 import 'package:weblate_sdk/src/util/custom_types.dart';
+import 'package:weblate_sdk/src/util/string_extension.dart';
 
 class WebLateClient {
-  final _languageMapper = LanguageMapper();
-  final _translationMapper = TranslationMapper();
-
   final String _accessKey;
   final String _host;
   final String _projectName;
@@ -24,7 +22,8 @@ class WebLateClient {
   final Duration? _cacheLive;
   final HiveStorage _storage;
   final PreferencesStorage _preferences;
-  late Dio _client;
+  late PersistedRequest<void, List<String>> _componentRequest;
+  late PersistedRequest<String, LanguageKeys> _translationsRequest;
 
   WebLateClient({
     required String accessKey,
@@ -45,24 +44,30 @@ class WebLateClient {
         _preferences = preferences,
         _disableCache = disableCache,
         _cacheLive = cacheLive {
-    _client = Dio(
+    final client = Dio(
       BaseOptions(
         baseUrl: _host,
         connectTimeout: Const.defaultConnectTimeout,
         receiveTimeout: Const.defaultReceiveTimeout,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Credentials': 'true',
-          'Access-Control-Allow-Headers':
-              'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
-          'Access-Control-Allow-Methods': 'GET',
-        },
+        headers: Const.defaultCommonHeaders,
       ),
     );
-    _client.interceptors.add(
+    client.interceptors.add(
       AuthorizationInterceptor(
         accessKey: _accessKey,
       ),
+    );
+    _componentRequest = ComponentRequest(
+      dio: client,
+      storage: _storage,
+      projectName: _projectName,
+      componentName: _componentName,
+    );
+    _translationsRequest = TranslationsRequest(
+      dio: client,
+      storage: _storage,
+      projectName: _projectName,
+      componentName: _componentName,
     );
   }
 
@@ -86,13 +91,13 @@ class WebLateClient {
           ((DateTime.now().millisecondsSinceEpoch - cacheTimeStamp) >=
               _cacheLiveTimeMillis());
       if (hasCachedTranslations && !isCacheExpired) {
-        return _getCachedTranslations();
+        return _storage.getCachedTranslations(componentName: _componentName);
       } else {
         return _getRemoteTranslations();
       }
     } else {
       if (hasCachedTranslations) {
-        return _getCachedTranslations();
+        return _storage.getCachedTranslations(componentName: _componentName);
       } else {
         return {};
       }
@@ -100,114 +105,20 @@ class WebLateClient {
   }
 
   Future<TranslationsMap> _getRemoteTranslations() async {
-    try {
-      final response = await _client.get(
-        _composeLanguageUrl(),
-      );
-      final decodedAsList = response.data as List;
-      if (decodedAsList.isEmpty) {
-        if (kDebugMode) {
-          print(
-              '${Const.notInitialized}: No any translation languages found for $_projectName');
-        }
-        return {};
-      }
-      //cache results
-      final languageObject = _languageMapper.mapToObject(
-        decodedAsList.map((e) => e['code'] as String).toList(),
-      );
-      await _storage.cacheLanguages(languages: languageObject);
-      //get translations for language
-      TranslationsMap translationsMap = {};
-      for (var lang in decodedAsList) {
-        final langCode = lang['code'] as String;
-        final translations = await _getTranslations(langCode);
-        translationsMap[langCode] = translations;
-        //cache results
-        final translationsObject = _translationMapper.mapToObject(
-          TranslationBundle(
-            langCode: langCode,
-            componentName: _componentName,
-            translations: translations,
-          ),
-        );
-        await _storage.cacheTranslations(
-          translations: translationsObject,
-          langCode: langCode,
-          componentName: _componentName,
-        );
-      }
-      await _preferences
-          .saveCacheTimestamp(DateTime.now().millisecondsSinceEpoch);
-      if (kDebugMode) {
-        print(
-          '${Const.success}: Found valid remote translations for [${decodedAsList.map((e) => e['code'] as String).join(',')}]',
-        );
-      }
-      return translationsMap;
-    } on DioError catch (dioError) {
-      _onDioError(dioError);
-      return {};
-    } catch (e) {
-      if (kDebugMode) {
-        print('${Const.notInitialized}: ${e.toString()}');
-      }
-      return {};
-    }
-  }
-
-  Future<TranslationsMap> _getCachedTranslations() async {
-    final cachedLanguages = await _storage.getCachedLanguages();
+    final languageCodes = await _componentRequest(null);
     TranslationsMap translationsMap = {};
-    for (var lang in cachedLanguages) {
-      final cachedTranslations = await _storage.getCachedTranslations(
-        componentName: _componentName,
-        langCode: lang.langCode,
-      );
-      translationsMap[lang.langCode] =
-          _translationMapper.objectToMap(cachedTranslations);
+    for (var langCode in languageCodes) {
+      final translations = await _translationsRequest(langCode);
+      translationsMap[langCode.cleanLangCode()] = translations;
     }
+    await _preferences
+        .saveCacheTimestamp(DateTime.now().millisecondsSinceEpoch);
     if (kDebugMode) {
       print(
-        '${Const.success}: Found valid cached translations for [${cachedLanguages.map((e) => e.langCode).join(', ')}]',
+        '${Const.success}: Got remote translations [${languageCodes.join(', ')}] for $_componentName',
       );
     }
     return translationsMap;
-  }
-
-  Future<LanguageKeys> _getTranslations(String lang) async {
-    try {
-      final response = await _client.get(
-        _composeTranslationUrl(lang),
-      );
-      final decodedTranslations = response.data as Map;
-      LanguageKeys stringsMap = decodedTranslations.map(
-        (key, value) => MapEntry(key, value as String),
-      );
-      return stringsMap;
-    } on DioError catch (dioError) {
-      _onDioError(dioError);
-      return {};
-    } catch (e) {
-      if (kDebugMode) {
-        print('${Const.notInitialized}: ${e.toString()}');
-      }
-    }
-    return {};
-  }
-
-  void _onDioError(DioError dioError) {
-    if (kDebugMode) {
-      if (dioError.response?.data != null) {
-        print(
-          '${Const.notInitialized}: ${dioError.response?.statusCode}: ${dioError.response?.data['detail']}',
-        );
-      } else {
-        print(
-          '${Const.notInitialized}: ${dioError.type}: ${dioError.message}',
-        );
-      }
-    }
   }
 
   Future<bool> _hasConnection() async {
@@ -226,9 +137,4 @@ class WebLateClient {
 
   int _cacheLiveTimeMillis() =>
       _cacheLive?.inMilliseconds ?? const Duration(hours: 2).inMilliseconds;
-
-  String _composeLanguageUrl() => '/api/projects/$_projectName/languages/';
-
-  String _composeTranslationUrl(String language) =>
-      '/api/translations/$_projectName/$_componentName/$language/file/';
 }

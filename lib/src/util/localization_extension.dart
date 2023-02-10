@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/web_late_sdk.dart';
-import 'package:weblate_sdk/src/weblate_exception.dart';
+import 'package:weblate_sdk/src/util/weblate_exception.dart';
 
 extension LocalizationContextExtension on BuildContext {
   /// Main extension method to use strings from your translation;
@@ -19,16 +19,15 @@ extension LocalizationStringExtension on String {
         message: 'Did you forgot to call WebLate.initialize() in main?',
       );
     }
-    final currentLocale = Localizations.localeOf(context);
-    if (!WebLateSdk.translations.containsKey(currentLocale.languageCode)) {
+    final currentLocale = Localizations.localeOf(context).languageCode;
+    if (!WebLateSdk.translations.containsKey(currentLocale)) {
       throw WebLateException(
         cause: Const.localeNotFound,
-        message: 'Locale for ${currentLocale.languageCode} not found',
+        message: 'Locale for $currentLocale not found',
       );
     }
 
-    final localeTranslations =
-        WebLateSdk.translations[currentLocale.languageCode] ?? {};
+    final localeTranslations = WebLateSdk.translations[currentLocale] ?? {};
     if (localeTranslations.containsKey(this)) {
       final translationString = localeTranslations[this] ?? '';
       if (translationString.isNotEmpty) {
