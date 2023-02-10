@@ -23,9 +23,7 @@ class LanguageMapper {
   final _objectToMap = _ObjectToMap();
   final _mapToObject = _MapToObject();
 
-  List<String> objectToMap(List<Language> from) =>
-      _objectToMap.map(from);
+  List<String> objectToMap(List<Language> from) => _objectToMap.map(from);
 
-  List<Language> mapToObject(List<String> from) =>
-      _mapToObject.map(from);
+  List<Language> mapToObject(List<String> from) => _mapToObject.map(from);
 }

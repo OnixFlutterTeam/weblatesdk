@@ -23,7 +23,7 @@ flutter_localizations:
     host: 'weblate_host',
     projectName: 'name of project',
     componentName: 'name of component',
-    defaultLanguage: 'en', //optional
+    defaultLanguage: 'en',
     disableCache: false, //optional
     cacheLive: const Duration(days: 1), //optional
   );
@@ -43,7 +43,7 @@ in [WebLate account](https://docs.weblate.org/en/latest/);
 
 `defaultLanguage` - default language to use if key for current language not found.
 
-> If `defaultLanguage` is set then if translation not found for current language
+> If translation not found for current language
 > then translation for `defaultLanguage` will be used instead
 
 `disableCache` - disable or enable caching. By default cache
@@ -65,7 +65,7 @@ localizationsDelegates: [
 
 **Use localized strings in your code:**
 
-`context.localizedValueOf('key')`
+`context.localizedValueOf('key');`
 
 
 > Note: Do not forgot to add internet permissions for you platforms

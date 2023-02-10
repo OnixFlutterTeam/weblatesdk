@@ -9,9 +9,7 @@ import 'package:weblate_sdk/src/storage/mapper/language_mapper.dart';
 import 'package:weblate_sdk/src/storage/mapper/translation_mapper.dart';
 import 'package:weblate_sdk/src/storage/model/translation_bundle.dart';
 import 'package:weblate_sdk/src/storage/preferences_storage.dart';
-
 import 'package:weblate_sdk/src/util/custom_types.dart';
-import 'package:weblate_sdk/src/weblate_exception.dart';
 
 class WebLateClient {
   final _languageMapper = LanguageMapper();
@@ -21,6 +19,7 @@ class WebLateClient {
   final String _host;
   final String _projectName;
   final String _componentName;
+  final String _defaultLanguage;
   final bool? _disableCache;
   final Duration? _cacheLive;
   final HiveStorage _storage;
@@ -32,6 +31,7 @@ class WebLateClient {
     required String host,
     required String projectName,
     required String componentName,
+    required String defaultLanguage,
     required HiveStorage storage,
     required PreferencesStorage preferences,
     bool? disableCache,
@@ -40,6 +40,7 @@ class WebLateClient {
         _host = host,
         _projectName = projectName,
         _componentName = componentName,
+        _defaultLanguage = defaultLanguage,
         _storage = storage,
         _preferences = preferences,
         _disableCache = disableCache,
@@ -65,7 +66,7 @@ class WebLateClient {
     );
   }
 
-  Future<bool> canInitialize() =>_hasConnection();
+  Future<bool> canInitialize() => _hasConnection();
 
   Future<TranslationsMap> initialize() async {
     final disableCache = _disableCache ?? kDebugMode;
@@ -77,6 +78,7 @@ class WebLateClient {
     final cacheTimeStamp = await _preferences.getCacheTimestamp();
     final hasCachedTranslations = await _storage.hasCachedTranslations(
       componentName: _componentName,
+      defaultLanguage: _defaultLanguage,
     );
 
     if (hasConnection) {
@@ -92,10 +94,7 @@ class WebLateClient {
       if (hasCachedTranslations) {
         return _getCachedTranslations();
       } else {
-        throw WebLateException(
-          cause: Const.notInitialized,
-          message: 'No internet connection and cache not found.',
-        );
+        return {};
       }
     }
   }
@@ -132,7 +131,11 @@ class WebLateClient {
             translations: translations,
           ),
         );
-        await _storage.cacheTranslations(translations: translationsObject);
+        await _storage.cacheTranslations(
+          translations: translationsObject,
+          langCode: langCode,
+          componentName: _componentName,
+        );
       }
       await _preferences
           .saveCacheTimestamp(DateTime.now().millisecondsSinceEpoch);

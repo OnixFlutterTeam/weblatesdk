@@ -18,6 +18,7 @@ abstract class HiveStorage {
 
   Future<bool> hasCachedTranslations({
     required String componentName,
+    required String defaultLanguage,
   });
 
   Future<List<Language>> getCachedLanguages();
@@ -32,6 +33,8 @@ abstract class HiveStorage {
   });
 
   Future<void> cacheTranslations({
+    required String componentName,
+    required String langCode,
     required List<Translation> translations,
   });
 }

@@ -12,7 +12,7 @@ class WebLateSdk {
   static late WebLateLocalizationDelegate _delegate;
   static bool _isInitialized = false;
   static TranslationsMap _translations = {};
-  static late String? _defaultLanguage;
+  static late String _defaultLanguage;
 
   /// Initialize library. Call this function in [main] function of your app;
   /// [accessKey] - you can find it in your WebLate profile in Api Access section;
@@ -32,7 +32,7 @@ class WebLateSdk {
     required String host,
     required String projectName,
     required String componentName,
-    String? defaultLanguage,
+    required String defaultLanguage,
     bool? disableCache,
     Duration? cacheLive,
   }) async {
@@ -48,6 +48,7 @@ class WebLateSdk {
       host: host,
       projectName: projectName,
       componentName: componentName,
+      defaultLanguage: defaultLanguage,
       storage: storage,
       preferences: preferences,
       disableCache: disableCache,
@@ -74,8 +75,9 @@ class WebLateSdk {
   static TranslationsMap get translations => _translations;
 
   /// Is initialization completed or not;
-  static bool get isInitialized => _isInitialized;
+  static bool get isInitializedSuccessfully =>
+      _isInitialized && translations.isNotEmpty;
 
   /// Get default language. By default means completed;
-  static String? get defaultLanguage => _defaultLanguage;
+  static String get defaultLanguage => _defaultLanguage;
 }

@@ -3,14 +3,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:weblate_sdk/weblate_sdk.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await WebLateSdk.initialize(
     accessKey: 'your_weblate_key',
     host: 'weblate_host',
     projectName: 'name of project',
     componentName: 'name of component',
-    defaultLanguage: 'en', //optional
-    disableCache: false, //optional
-    cacheLive: const Duration(days: 1), //optional
+    defaultLanguage: 'en',
+    //optional
+    disableCache: false,
+    //optional
+    cacheLive: const Duration(days: 1),
   );
   runApp(const MyApp());
 }
@@ -35,7 +38,9 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         WebLateSdk.delegate,
       ],
-      home: const HomeScreen(),
+      home: WebLateSdk.isInitializedSuccessfully
+          ? const HomeScreen()
+          : const InitializationErrorScreen(),
     );
   }
 }
@@ -49,10 +54,34 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.localizedValueOf('title')),
+        title: Text(context.localizedValueOf('tab_home')),
       ),
       body: Center(
-        child: Text(context.localizedValueOf('welcome_message')),
+        child: Text(context.localizedValueOf('letsGo')),
+      ),
+    );
+  }
+}
+
+class InitializationErrorScreen extends StatelessWidget {
+  const InitializationErrorScreen({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Initialization Error'),
+      ),
+      body: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Center(
+          child: Text(
+            'Running app first time?\nPlease check your internet connection and try again.',
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     );
   }

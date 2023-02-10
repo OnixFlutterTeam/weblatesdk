@@ -13,7 +13,7 @@ extension LocalizationContextExtension on BuildContext {
 
 extension LocalizationStringExtension on String {
   String localizedValueOf(BuildContext context) {
-    if (!WebLateSdk.isInitialized) {
+    if (!WebLateSdk.isInitializedSuccessfully) {
       throw WebLateException(
         cause: Const.notInitialized,
         message: 'Did you forgot to call WebLate.initialize() in main?',
@@ -26,6 +26,7 @@ extension LocalizationStringExtension on String {
         message: 'Locale for ${currentLocale.languageCode} not found',
       );
     }
+
     final localeTranslations =
         WebLateSdk.translations[currentLocale.languageCode] ?? {};
     if (localeTranslations.containsKey(this)) {
@@ -42,20 +43,15 @@ extension LocalizationStringExtension on String {
 
   String _getDefaultLocaleTranslation() {
     final defaultLanguage = WebLateSdk.defaultLanguage;
-    if (defaultLanguage != null) {
-      if (!WebLateSdk.translations.containsKey(defaultLanguage)) {
-        throw WebLateException(
-          cause: Const.localeNotFound,
-          message: 'Invalid default locale. Locale $defaultLanguage not found',
-        );
-      }
-      final defaultTranslations =
-          WebLateSdk.translations[defaultLanguage] ?? {};
-      if (defaultTranslations.containsKey(this)) {
-        return defaultTranslations[this] ?? '';
-      } else {
-        return '';
-      }
+    if (!WebLateSdk.translations.containsKey(defaultLanguage)) {
+      throw WebLateException(
+        cause: Const.localeNotFound,
+        message: 'Invalid default locale. Locale $defaultLanguage not found',
+      );
+    }
+    final defaultTranslations = WebLateSdk.translations[defaultLanguage] ?? {};
+    if (defaultTranslations.containsKey(this)) {
+      return defaultTranslations[this] ?? '';
     } else {
       return '';
     }
