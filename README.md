@@ -71,4 +71,7 @@ localizationsDelegates: [
 > Note: Do not forgot to add internet permissions for you platforms
 
 
+Have a suggestion or found a bug? Please let us know [HERE](https://github.com/cozvtieg9/weblatesdk/issues).
+
+
 
