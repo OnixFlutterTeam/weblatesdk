@@ -45,7 +45,6 @@ extension LocalizationStringExtension on String {
   String _getFallbackTranslation() {
     final fallbackTranslations = WebLateSdk.fallbackTranslations ?? {};
     if (fallbackTranslations.containsKey(this)) {
-      print('getting from fallback $this');
       return fallbackTranslations[this] ?? '';
     } else {
       throw WebLateException(
