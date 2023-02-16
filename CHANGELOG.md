@@ -1,3 +1,7 @@
+## 0.0.7
+
+* Fixed exceptions
+
 ## 0.0.6
 
 * Added support of local fallback json file
