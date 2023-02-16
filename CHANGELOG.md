@@ -1,3 +1,7 @@
+## 0.0.6
+
+* Added support of local fallback json file
+
 ## 0.0.5
 
 * Fixed issue when using @formal languages

@@ -26,6 +26,7 @@ flutter_localizations:
     defaultLanguage: 'en',
     disableCache: false, //optional
     cacheLive: const Duration(days: 1), //optional
+    fallbackJson: 'assets/default.json', //optional
   );
 ```
 
@@ -51,6 +52,10 @@ disabled on debug and enabled on release;
 
 `cacheLive` - cache live time. By default 2 hours;
 
+`fallbackTranslations` - fallback translations file.
+This used in case when SDK not initialized properly
+or when user runs app without internet connection and cached translations;
+
 **Add localization to `MaterialApp`:**
 
 ```
@@ -71,7 +76,8 @@ localizationsDelegates: [
 > Note: Do not forgot to add internet permissions for you platforms
 
 
-Have a suggestion or found a bug? Please let us know [HERE](https://github.com/cozvtieg9/weblatesdk/issues).
+Have a suggestion or found a bug? Please let us
+know [HERE](https://github.com/cozvtieg9/weblatesdk/issues).
 
 
 

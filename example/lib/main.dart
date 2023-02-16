@@ -14,6 +14,8 @@ void main() async {
     disableCache: false,
     //optional
     cacheLive: const Duration(days: 1),
+    //optional
+    fallbackJson: 'assets/default.json',
   );
   runApp(const MyApp());
 }
@@ -38,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
         WebLateSdk.delegate,
       ],
-      home: WebLateSdk.isInitializedSuccessfully
+      home: WebLateSdk.isSDKInitialized
           ? const HomeScreen()
           : const InitializationErrorScreen(),
     );
