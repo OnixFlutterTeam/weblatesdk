@@ -47,10 +47,7 @@ extension LocalizationStringExtension on String {
     if (fallbackTranslations.containsKey(this)) {
       return fallbackTranslations[this] ?? '';
     } else {
-      throw WebLateException(
-        cause: Const.keyNotFound,
-        message: 'Not found $this in fallback translation or cache.',
-      );
+      return this;
     }
   }
 }
