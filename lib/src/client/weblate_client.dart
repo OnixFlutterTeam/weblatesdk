@@ -13,7 +13,7 @@ import 'package:weblate_sdk/src/util/custom_types.dart';
 import 'package:weblate_sdk/src/util/string_extension.dart';
 
 class WebLateClient {
-  final String _accessKey;
+  final String _token;
   final String _host;
   final String _projectName;
   final String _componentName;
@@ -26,7 +26,7 @@ class WebLateClient {
   late PersistedRequest<String, LanguageKeys> _translationsRequest;
 
   WebLateClient({
-    required String accessKey,
+    required String token,
     required String host,
     required String projectName,
     required String componentName,
@@ -35,7 +35,7 @@ class WebLateClient {
     required PreferencesStorage preferences,
     bool? disableCache,
     Duration? cacheLive,
-  })  : _accessKey = accessKey,
+  })  : _token = token,
         _host = host,
         _projectName = projectName,
         _componentName = componentName,
@@ -54,7 +54,7 @@ class WebLateClient {
     );
     client.interceptors.add(
       AuthorizationInterceptor(
-        accessKey: _accessKey,
+        token: _token,
       ),
     );
     _componentRequest = ComponentRequest(
@@ -79,7 +79,13 @@ class WebLateClient {
       return _getRemoteTranslations();
     }
 
-    final bool hasConnection = await _hasConnection();
+    var hasConnection = false;
+    if (kIsWeb) {
+      hasConnection = true;
+    } else {
+      hasConnection = await _hasConnection();
+    }
+
     final cacheTimeStamp = await _preferences.getCacheTimestamp();
     final hasCachedTranslations = await _storage.hasCachedTranslations(
       componentName: _componentName,

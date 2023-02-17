@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 
 class AuthorizationInterceptor extends QueuedInterceptorsWrapper {
-  final String _accessKey;
+  final String _token;
 
   AuthorizationInterceptor({
-    required String accessKey,
-  }) : _accessKey = accessKey;
+    required String token,
+  }) : _token = token;
 
   @override
   Future<void> onRequest(
@@ -14,7 +14,7 @@ class AuthorizationInterceptor extends QueuedInterceptorsWrapper {
   ) async {
     options.headers.addAll(
       <String, String>{
-        'Authorization': 'Token $_accessKey',
+        'Authorization': 'Token $_token',
       },
     );
     handler.next(options);
