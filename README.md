@@ -19,8 +19,8 @@ flutter_localizations:
 
 ```
  await WebLateSdk.initialize(
-    accessKey: 'your_weblate_key',
-    host: 'weblate_host',
+    token: 'your token',
+    host: 'your host',
     projectName: 'name of project',
     componentName: 'name of component',
     defaultLanguage: 'en',
@@ -32,8 +32,8 @@ flutter_localizations:
 
 **Parameters description:**
 
-`accessKey` - your access key. You can find
-in [WebLate account](https://docs.weblate.org/en/latest/);
+`token` - your project token. You can create project in WebLate project API access settings 
+and set at least Languages permission for token;
 `host` - your WebLate host url;
 
 > Note: host should be with https:// (for example: `https://weblate.company.link`

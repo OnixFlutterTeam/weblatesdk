@@ -21,7 +21,7 @@ class WebLateSdk {
   static LanguageKeys? _fallbackTranslations;
 
   /// Initialize library. Call this function in [main] function of your app;
-  /// [accessKey] - you can find it in your WebLate profile in Api Access section;
+  /// [token] - you can find it in your WebLate project in Api Access section;
   /// [host] - host of your WebLate. Host should be without https://. for example: weblate.company.link;
   /// [projectName] - name of your WebLate project;
   /// [componentName] - name of your WebLate project component to use;
@@ -36,7 +36,7 @@ class WebLateSdk {
   /// [fallbackJson] - set local JSON translations file for case when you
   /// do not have internet connection and cached translations;
   static Future<bool> initialize({
-    required String accessKey,
+    required String token,
     required String host,
     required String projectName,
     required String componentName,
@@ -59,7 +59,7 @@ class WebLateSdk {
     await storage.initialize();
     final preferences = PreferencesStorageImpl();
     _client = WebLateClient(
-      accessKey: accessKey,
+      token: token,
       host: host,
       projectName: projectName,
       componentName: componentName,
