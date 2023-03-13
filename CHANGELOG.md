@@ -1,3 +1,7 @@
+## 0.0.9
+
+* Dependencies update
+
 ## 0.0.8
 
 * Minor improvements
