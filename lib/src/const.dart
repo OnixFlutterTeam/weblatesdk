@@ -7,8 +7,8 @@ class Const {
   static const keyNotFound = '$packageName: Key Not Found Exception';
   static const storageIOError = '$packageName: Storage IO Exception';
 
-  static const defaultConnectTimeout = 15000;
-  static const defaultReceiveTimeout = 15000;
+  static const defaultConnectTimeout = Duration(milliseconds: 15000);
+  static const defaultReceiveTimeout = Duration(milliseconds: 15000);
   static const defaultCommonHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Credentials': 'true',
