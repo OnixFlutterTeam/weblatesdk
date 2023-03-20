@@ -7,15 +7,14 @@ void main() async {
   await WebLateSdk.initialize(
     token: 'your token',
     host: 'your host',
-    projectName: 'your project name',
-    componentName: 'your component name',
+    projectName: 'name of project',
+    componentName: 'name of component',
     defaultLanguage: 'en',
-    //optional
     disableCache: false,
     //optional
     cacheLive: const Duration(days: 1),
     //optional
-    fallbackJson: 'assets/default.json',
+    fallbackJson: 'assets/default.json', //optional
   );
   runApp(const MyApp());
 }
@@ -59,7 +58,9 @@ class HomeScreen extends StatelessWidget {
         title: Text(context.localizedValueOf('tabHome')),
       ),
       body: Center(
-        child: Text(context.localizedValueOf('lets_go')),
+        child: Text(context.localizedValueOf('test_welcoming', format: [
+          'John Doe',
+        ])),
       ),
     );
   }
