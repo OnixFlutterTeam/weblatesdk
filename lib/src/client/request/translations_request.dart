@@ -39,9 +39,15 @@ class TranslationsRequest extends PersistedRequest<String, LanguageKeys> {
         '$apiEndpoint$param/file/',
       );
       final decodedTranslations = response.data as Map;
-      LanguageKeys stringsMap = decodedTranslations.map(
+      LanguageKeys stringsMap = {};
+      decodedTranslations.forEach((key, value) {
+        if (value is String) {
+          stringsMap[key] = value;
+        }
+      });
+      /* LanguageKeys stringsMap = decodedTranslations.map(
         (key, value) => MapEntry(key, value as String),
-      );
+      );*/
       return stringsMap;
     } on DioError catch (dioError) {
       if (kDebugMode) {

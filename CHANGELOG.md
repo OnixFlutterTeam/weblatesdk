@@ -1,3 +1,7 @@
+## 0.0.10
+
+* Parsing issue fixed
+
 ## 0.0.9
 
 * Dependencies update

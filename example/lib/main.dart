@@ -56,10 +56,10 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.localizedValueOf('tab_home')),
+        title: Text(context.localizedValueOf('tabHome')),
       ),
       body: Center(
-        child: Text(context.localizedValueOf('letsGo')),
+        child: Text(context.localizedValueOf('lets_go')),
       ),
     );
   }
