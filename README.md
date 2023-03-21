@@ -34,6 +34,7 @@ flutter_localizations:
 
 `token` - your project token. You can create project in WebLate project API access settings 
 and set at least Languages permission for token;
+
 `host` - your WebLate host url;
 
 > Note: host should be with https:// (for example: `https://weblate.company.link`
@@ -72,6 +73,12 @@ localizationsDelegates: [
 
 `context.localizedValueOf('key');`
 
+**Optionally you can use translations formatting:**
+
+`context.localizedValueOf('key', format: ['John Doe', ...]);`
+
+> Note: To use formatting parts to replace should be highlighted with { and }. 
+> For example: 'Welcome {username}!' 
 
 > Note: Do not forgot to add internet permissions for you platforms
 

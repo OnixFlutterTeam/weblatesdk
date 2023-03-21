@@ -1,3 +1,7 @@
+## 0.0.11
+
+* Added translation formatting
+
 ## 0.0.10
 
 * Parsing issue fixed
