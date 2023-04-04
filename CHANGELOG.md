@@ -1,3 +1,7 @@
+## 0.0.12
+
+* Updated libraries to latest version
+
 ## 0.0.11
 
 * Added translation formatting
