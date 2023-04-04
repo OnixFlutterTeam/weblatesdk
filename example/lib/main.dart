@@ -5,10 +5,10 @@ import 'package:weblate_sdk/weblate_sdk.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await WebLateSdk.initialize(
-    token: 'your token',
-    host: 'your host',
-    projectName: 'name of project',
-    componentName: 'name of component',
+    token: 'wlp_dEDbrKyCIgeDWCgjWLy2OMnr6hQ9K4uco3cH',
+    host: 'https://weblate.onix.link',
+    projectName: 'flutter_demo',
+    componentName: 'android',
     defaultLanguage: 'en',
     disableCache: false,
     //optional

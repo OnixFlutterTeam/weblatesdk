@@ -1,6 +1,6 @@
 name: weblate_sdk
 description: Unofficial WebLate SDK. Designed to work with WebLate web-based continuous localization system.
-version: 0.0.11
+version: 0.1.0
 homepage: https://github.com/cozvtieg9/weblatesdk
 
 environment:
@@ -54,6 +54,9 @@ flutter:
         pluginClass: WeblateSdkPlugin
       windows:
         pluginClass: WeblateSdkPluginCApi
+      web:
+        pluginClass: WeblateWebPlugin
+        fileName: weblate_web_plugin.dart
 
 
   # To add assets to your plugin package, add an assets section, like this:

@@ -1,3 +1,7 @@
+## 0.1.0
+
+* Added Web support
+
 ## 0.0.11
 
 * Added translation formatting
