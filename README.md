@@ -82,6 +82,11 @@ localizationsDelegates: [
 
 > Note: Do not forgot to add internet permissions for you platforms
 
+##Web support
+
+**Please read about [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) and make sure that CORS setup properly.**
+
+##Hae a suggestion or found a bug?
 
 Have a suggestion or found a bug? Please let us
 know [HERE](https://github.com/cozvtieg9/weblatesdk/issues).

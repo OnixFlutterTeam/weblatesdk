@@ -6,10 +6,10 @@ import 'weblate_platform.dart';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-class WeblateWebPlugin extends WeblatePlatform {
-  WeblateWebPlugin();
+class WebLateWebPlugin extends WebLatePlatform {
+  WebLateWebPlugin();
 
   static void registerWith(Registrar registrar) {
-    WeblatePlatform.instance = WeblateWebPlugin();
+    WebLatePlatform.instance = WebLateWebPlugin();
   }
 }
