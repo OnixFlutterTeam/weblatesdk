@@ -1,3 +1,7 @@
+## 0.1.0
+
+* Added Web support
+
 ## 0.0.12
 
 * Updated libraries to latest version
