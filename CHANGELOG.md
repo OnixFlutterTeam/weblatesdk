@@ -1,3 +1,8 @@
+## 0.1.1
+
+* Updated dependencies
+* Updated supported Dart version
+
 ## 0.1.0
 
 * Added Web support
