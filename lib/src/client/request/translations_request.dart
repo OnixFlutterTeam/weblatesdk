@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:async';
 import 'package:weblate_sdk/src/client/request/persisted_request.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/storage/mapper/translation_mapper.dart';
