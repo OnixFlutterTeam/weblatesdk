@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:async';
 import 'package:weblate_sdk/src/client/request/persisted_request.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/storage/mapper/language_mapper.dart';
@@ -47,7 +48,7 @@ class ComponentRequest extends PersistedRequest<void, List<String>> {
         print('${Const.apiError}: $dioMessage');
       }
       return List.empty();
-    } catch (e, _) {
+    } catch (e) {
       return List.empty();
     }
   }
