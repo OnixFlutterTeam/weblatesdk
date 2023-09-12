@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'dart:async';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:weblate_sdk/src/client/request/component_request.dart';
@@ -24,6 +24,7 @@ class WebLateClient {
   final PreferencesStorage _preferences;
   late PersistedRequest<void, List<String>> _componentRequest;
   late PersistedRequest<String, LanguageKeys> _translationsRequest;
+  late final Connectivity _connectivity = Connectivity();
 
   WebLateClient({
     required String token,
@@ -128,17 +129,14 @@ class WebLateClient {
   }
 
   Future<bool> _hasConnection() async {
-    try {
-      final result = await InternetAddress.lookup(
-        _host.replaceAll('https://', ''),
-      );
-      if (result.isNotEmpty && result.first.rawAddress.isNotEmpty) {
+    final result = await _connectivity.checkConnectivity();
+    switch (result) {
+      case ConnectivityResult.none:
+      case ConnectivityResult.bluetooth:
+        return false;
+      default:
         return true;
-      }
-    } on SocketException catch (_) {
-      return false;
     }
-    return false;
   }
 
   int _cacheLiveTimeMillis() =>
