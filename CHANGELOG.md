@@ -1,3 +1,11 @@
+## 0.1.3
+* Update fallback text when not found key 
+
+## 0.1.2
+
+* Updated dependencies
+* Use connectivity plus to decide connection instead
+
 ## 0.1.1
 
 * Updated dependencies
