@@ -31,14 +31,15 @@ extension LocalizationStringExtension on String {
 
   String _getDefaultLocaleTranslation() {
     final defaultLanguage = WebLateSdk.defaultLanguage;
+    final fallbackTranslation = _getFallbackTranslation();
     if (!WebLateSdk.translations.containsKey(defaultLanguage)) {
-      return _getFallbackTranslation();
+      return fallbackTranslation;
     }
     final defaultTranslations = WebLateSdk.translations[defaultLanguage] ?? {};
     if (defaultTranslations.containsKey(this)) {
-      return defaultTranslations[this] ?? '';
+      return defaultTranslations[this] ?? fallbackTranslation;
     } else {
-      return '';
+      return fallbackTranslation;
     }
   }
 
