@@ -1,6 +1,7 @@
 ## 0.1.4
 
 * Added some visible for testing functions
+* Added connectivity
 
 ## 0.1.3
 

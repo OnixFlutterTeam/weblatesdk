@@ -24,7 +24,7 @@ class WebLateClient {
   final PreferencesStorage _preferences;
   late PersistedRequest<void, List<String>> _componentRequest;
   late PersistedRequest<String, LanguageKeys> _translationsRequest;
-  late final Connectivity _connectivity = Connectivity();
+  final _connectivity = Connectivity();
 
   WebLateClient({
     required String token,

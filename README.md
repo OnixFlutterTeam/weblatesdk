@@ -30,6 +30,16 @@ flutter_localizations:
   );
 ```
 
+**Android Setup**
+
+Increase minSdk version in build.gradle to 19 at least.
+
+```
+defaultConfig {
+        minSdkVersion 19
+    } 
+```
+
 **Parameters description:**
 
 `token` - your project token. You can create project in WebLate project API access settings 
@@ -81,6 +91,8 @@ localizationsDelegates: [
 > For example: 'Welcome {username}!' 
 
 > Note: Do not forgot to add internet permissions for you platforms
+
+
 
 ##Web support
 
