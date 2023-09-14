@@ -1,6 +1,6 @@
 name: weblate_sdk
 description: Unofficial WebLate SDK. Designed to work with WebLate web-based continuous localization system.
-version: 0.1.4
+version: 0.1.2
 homepage: https://github.com/cozvtieg9/weblatesdk
 
 environment:
