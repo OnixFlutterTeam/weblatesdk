@@ -37,7 +37,7 @@ abstract class PersistedRequest<I, T> {
   });
 
   @protected
-  String parseDioErrorMessage(DioError dioError) {
+  String parseDioErrorMessage(DioException dioError) {
     if (dioError.response?.data != null) {
       return '${dioError.response?.statusCode}: ${dioError.response?.data['detail']}';
     } else {

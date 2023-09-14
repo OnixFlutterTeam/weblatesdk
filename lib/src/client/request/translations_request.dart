@@ -50,7 +50,7 @@ class TranslationsRequest extends PersistedRequest<String, LanguageKeys> {
         (key, value) => MapEntry(key, value as String),
       );*/
       return stringsMap;
-    } on DioError catch (dioError) {
+    } on DioException catch (dioError) {
       if (kDebugMode) {
         if (dioError.response?.statusCode == 404) {
           print(

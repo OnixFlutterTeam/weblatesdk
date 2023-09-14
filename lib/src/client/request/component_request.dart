@@ -42,7 +42,7 @@ class ComponentRequest extends PersistedRequest<void, List<String>> {
             '${Const.packageName}: Got [${decodedAsList.join(', ')}] languages for $componentName component.');
       }
       return decodedAsList;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       if (kDebugMode) {
         final dioMessage = parseDioErrorMessage(e);
         print('${Const.apiError}: $dioMessage');
