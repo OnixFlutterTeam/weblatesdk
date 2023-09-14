@@ -20,6 +20,19 @@ class WebLateSdk {
   static late String _defaultLanguage;
   static LanguageKeys? _fallbackTranslations;
 
+  @visibleForTesting
+  static set setTestIsInitialized(bool value) {
+    _isInitialized = value;
+  }
+  @visibleForTesting
+  static set setTestDefaultLanguage(String value) {
+    _defaultLanguage = value;
+  }
+  @visibleForTesting
+  static Future<void> setFallbackTranslations(String fallbackJson) async {
+    _fallbackTranslations = await _initializeFallbackJson(fallbackJson);
+  }
+
   /// Initialize library. Call this function in [main] function of your app;
   /// [token] - you can find it in your WebLate project in Api Access section;
   /// [host] - host of your WebLate. Host should be without https://. for example: weblate.company.link;

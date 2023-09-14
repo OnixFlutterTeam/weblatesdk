@@ -1,4 +1,9 @@
+## 0.1.4
+
+* Added some visible for testing functions
+
 ## 0.1.3
+
 * Update fallback text when not found key 
 
 ## 0.1.2
