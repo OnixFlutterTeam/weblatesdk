@@ -1,11 +1,8 @@
-## 0.1.4
-
-* Added some visible for testing functions
-* Added connectivity
-
 ## 0.1.3
 
 * Update fallback text when not found key 
+* Added some visible for testing functions
+* Added connectivity
 
 ## 0.1.2
 

@@ -101,7 +101,7 @@ localizationsDelegates: [
 ##Hae a suggestion or found a bug?
 
 Have a suggestion or found a bug? Please let us
-know [HERE](https://github.com/cozvtieg9/weblatesdk/issues).
+know [HERE](https://github.com/OnixFlutterTeam/weblatesdk/issues).
 
 
 
