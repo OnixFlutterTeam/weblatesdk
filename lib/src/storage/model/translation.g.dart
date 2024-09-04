@@ -3,48 +3,20 @@
 part of 'translation.dart';
 
 // **************************************************************************
-// TypeAdapterGenerator
+// JsonSerializableGenerator
 // **************************************************************************
 
-class TranslationAdapter extends TypeAdapter<Translation> {
-  @override
-  final int typeId = 1;
-
-  @override
-  Translation read(BinaryReader reader) {
-    final numOfFields = reader.readByte();
-    final fields = <int, dynamic>{
-      for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
-    };
-    return Translation(
-      langCode: fields[0] as String,
-      translationKey: fields[1] as String,
-      value: fields[2] as String,
-      componentName: fields[3] as String,
+Translation _$TranslationFromJson(Map<String, dynamic> json) => Translation(
+      langCode: json['langCode'] as String,
+      translationKey: json['translationKey'] as String,
+      value: json['value'] as String,
+      componentName: json['componentName'] as String,
     );
-  }
 
-  @override
-  void write(BinaryWriter writer, Translation obj) {
-    writer
-      ..writeByte(4)
-      ..writeByte(0)
-      ..write(obj.langCode)
-      ..writeByte(1)
-      ..write(obj.translationKey)
-      ..writeByte(2)
-      ..write(obj.value)
-      ..writeByte(3)
-      ..write(obj.componentName);
-  }
-
-  @override
-  int get hashCode => typeId.hashCode;
-
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is TranslationAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
-}
+Map<String, dynamic> _$TranslationToJson(Translation instance) =>
+    <String, dynamic>{
+      'langCode': instance.langCode,
+      'translationKey': instance.translationKey,
+      'value': instance.value,
+      'componentName': instance.componentName,
+    };

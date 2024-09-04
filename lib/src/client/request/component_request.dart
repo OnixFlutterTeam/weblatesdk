@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:async';
 import 'package:weblate_sdk/src/client/request/persisted_request.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/storage/mapper/language_mapper.dart';
@@ -39,13 +40,13 @@ class ComponentRequest extends PersistedRequest<void, List<String>> {
           .toList();
       if (kDebugMode) {
         print(
-            '${Const.packageName}: Got [${decodedAsList.join(', ')}] languages for $componentName component.');
+            '${Consts.packageName}: Got [${decodedAsList.join(', ')}] languages for $componentName component.');
       }
       return decodedAsList;
     } on DioException catch (e) {
       if (kDebugMode) {
         final dioMessage = parseDioErrorMessage(e);
-        print('${Const.apiError}: $dioMessage');
+        print('${Consts.apiError}: $dioMessage');
       }
       return List.empty();
     } catch (e) {

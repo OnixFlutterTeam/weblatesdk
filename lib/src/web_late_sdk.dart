@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:weblate_sdk/src/client/weblate_client.dart';
 import 'package:weblate_sdk/src/const.dart';
-import 'package:weblate_sdk/src/storage/impl/hive_storage_impl.dart';
+import 'package:weblate_sdk/src/storage/impl/local_translation_storage_impl.dart';
 import 'package:weblate_sdk/src/storage/impl/preferences_storage_impl.dart';
+import 'package:weblate_sdk/src/util/base_preferences.dart';
 import 'package:weblate_sdk/src/util/custom_types.dart';
 import 'package:weblate_sdk/src/web_late_localization_delegate.dart';
-import 'package:weblate_sdk/src/client/weblate_client.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 class WebLateSdk {
   WebLateSdk._();
@@ -24,10 +25,12 @@ class WebLateSdk {
   static set setTestIsInitialized(bool value) {
     _isInitialized = value;
   }
+
   @visibleForTesting
   static set setTestDefaultLanguage(String value) {
     _defaultLanguage = value;
   }
+
   @visibleForTesting
   static Future<void> setFallbackTranslations(String fallbackJson) async {
     _fallbackTranslations = await _initializeFallbackJson(fallbackJson);
@@ -67,9 +70,7 @@ class WebLateSdk {
         fallbackJson,
       );
     }
-
-    final storage = HiveStorageImpl();
-    await storage.initialize();
+    final storage = LocalTranslationStorageImpl(BasePreferences());
     final preferences = PreferencesStorageImpl();
     _client = WebLateClient(
       token: token,
@@ -102,7 +103,7 @@ class WebLateSdk {
     } catch (e, _) {
       if (kDebugMode) {
         print(
-          '${Const.storageIOError}: Could fallback not read file $fallbackJson. Fallback translations will not be used.\n$e',
+          '${Consts.storageIOError}: Could fallback not read file $fallbackJson. Fallback translations will not be used.\n$e',
         );
       }
     }

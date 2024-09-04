@@ -1,13 +1,14 @@
 import 'dart:async';
-import 'package:connectivity_plus/connectivity_plus.dart';
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:weblate_sdk/src/client/request/component_request.dart';
 import 'package:weblate_sdk/src/client/interceptor/authorization_interceptor.dart';
+import 'package:weblate_sdk/src/client/request/component_request.dart';
 import 'package:weblate_sdk/src/client/request/persisted_request.dart';
 import 'package:weblate_sdk/src/client/request/translations_request.dart';
 import 'package:weblate_sdk/src/const.dart';
-import 'package:weblate_sdk/src/storage/hive_storage.dart';
+import 'package:weblate_sdk/src/storage/local_translation_storage.dart';
 import 'package:weblate_sdk/src/storage/preferences_storage.dart';
 import 'package:weblate_sdk/src/util/custom_types.dart';
 import 'package:weblate_sdk/src/util/string_extension.dart';
@@ -20,11 +21,10 @@ class WebLateClient {
   final String _defaultLanguage;
   final bool? _disableCache;
   final Duration? _cacheLive;
-  final HiveStorage _storage;
+  final LocalTranslationStorage _storage;
   final PreferencesStorage _preferences;
   late PersistedRequest<void, List<String>> _componentRequest;
   late PersistedRequest<String, LanguageKeys> _translationsRequest;
-  final _connectivity = Connectivity();
 
   WebLateClient({
     required String token,
@@ -32,7 +32,7 @@ class WebLateClient {
     required String projectName,
     required String componentName,
     required String defaultLanguage,
-    required HiveStorage storage,
+    required LocalTranslationStorage storage,
     required PreferencesStorage preferences,
     bool? disableCache,
     Duration? cacheLive,
@@ -48,9 +48,9 @@ class WebLateClient {
     final client = Dio(
       BaseOptions(
         baseUrl: _host,
-        connectTimeout: Const.defaultConnectTimeout,
-        receiveTimeout: Const.defaultReceiveTimeout,
-        headers: Const.defaultCommonHeaders,
+        connectTimeout: Consts.defaultConnectTimeout,
+        receiveTimeout: Consts.defaultReceiveTimeout,
+        headers: Consts.defaultCommonHeaders,
       ),
     );
     client.interceptors.add(
@@ -122,20 +122,19 @@ class WebLateClient {
         .saveCacheTimestamp(DateTime.now().millisecondsSinceEpoch);
     if (kDebugMode) {
       print(
-        '${Const.success}: Got remote translations [${languageCodes.join(', ')}] for $_componentName',
+        '${Consts.success}: Got remote translations [${languageCodes.join(', ')}] for $_componentName',
       );
     }
     return translationsMap;
   }
 
   Future<bool> _hasConnection() async {
-    final result = await _connectivity.checkConnectivity();
-    switch (result) {
-      case ConnectivityResult.none:
-      case ConnectivityResult.bluetooth:
-        return false;
-      default:
-        return true;
+    try {
+      final uri = Uri.parse(_host);
+      final result = await InternetAddress.lookup(uri.host);
+      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (e) {
+      return false;
     }
   }
 

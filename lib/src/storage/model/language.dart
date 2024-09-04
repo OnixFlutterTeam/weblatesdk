@@ -1,13 +1,15 @@
-import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'language.g.dart';
 
-@HiveType(typeId: 0)
-class Language extends HiveObject {
-  @HiveField(0)
+@JsonSerializable()
+class Language {
   final String langCode;
 
-  Language({
-    required this.langCode,
-  });
+  const Language({required this.langCode});
+
+  factory Language.fromJson(Map<String, dynamic> json) =>
+      _$LanguageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LanguageToJson(this);
 }

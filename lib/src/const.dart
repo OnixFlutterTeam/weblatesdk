@@ -1,4 +1,4 @@
-class Const {
+class Consts {
   static const packageName = 'WebLate SDK';
   static const success = '$packageName: Initialized Successfully.';
   static const apiError = '$packageName: Api Error.';
@@ -16,4 +16,6 @@ class Const {
         'Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale',
     'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, HEAD, OPTIONS',
   };
+
+  const Consts._();
 }

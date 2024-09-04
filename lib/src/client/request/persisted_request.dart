@@ -1,13 +1,14 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:weblate_sdk/src/storage/hive_storage.dart';
+import 'package:weblate_sdk/src/storage/local_translation_storage.dart';
 
 abstract class PersistedRequest<I, T> {
   @protected
   final Dio dio;
   @protected
-  final HiveStorage storage;
+  final LocalTranslationStorage storage;
   @protected
   final String projectName;
   @protected

@@ -1,6 +1,7 @@
+import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'dart:async';
 import 'package:weblate_sdk/src/client/request/persisted_request.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/storage/mapper/translation_mapper.dart';
@@ -54,17 +55,17 @@ class TranslationsRequest extends PersistedRequest<String, LanguageKeys> {
       if (kDebugMode) {
         if (dioError.response?.statusCode == 404) {
           print(
-            '${Const.apiError}: $componentName component does not have translations for $param. $param translation will ignored.',
+            '${Consts.apiError}: $componentName component does not have translations for $param. $param translation will ignored.',
           );
         } else {
           final dioMessage = parseDioErrorMessage(dioError);
-          print('${Const.apiError}: $dioMessage');
+          print('${Consts.apiError}: $dioMessage');
         }
       }
       return {};
     } catch (e) {
       if (kDebugMode) {
-        print('${Const.notInitialized}: ${e.toString()}');
+        print('${Consts.notInitialized}: ${e.toString()}');
       }
       return {};
     }

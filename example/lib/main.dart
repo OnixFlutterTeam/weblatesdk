@@ -58,9 +58,14 @@ class HomeScreen extends StatelessWidget {
         title: Text(context.localizedValueOf('tab_home')),
       ),
       body: Center(
-        child: Text(context.localizedValueOf('test_welcoming', format: [
-          'John Doe',
-        ])),
+        child: Text(
+          context.localizedValueOf(
+            'test_welcoming',
+            format: [
+              'John Doe',
+            ],
+          ),
+        ),
       ),
     );
   }
