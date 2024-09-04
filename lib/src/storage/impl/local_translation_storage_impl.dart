@@ -30,9 +30,11 @@ class LocalTranslationStorageImpl extends LocalTranslationStorage {
       translationsMap[lang.langCode] =
           _translationMapper.objectToMap(cachedTranslations);
     }
-    debugPrint(
-      '${Consts.success}: Got cached translations [${cachedLanguages.map((e) => e.langCode).join(', ')}] for $componentName',
-    );
+    if (kDebugMode) {
+      print(
+        '${Consts.success}: Got cached translations [${cachedLanguages.map((e) => e.langCode).join(', ')}] for $componentName',
+      );
+    }
     return translationsMap;
   }
 
@@ -44,7 +46,9 @@ class LocalTranslationStorageImpl extends LocalTranslationStorage {
       final encoded = jsonEncode(languages.map((e) => e.toJson()).toList());
       await _preferences.put(kLanguagesBox, encoded);
     } catch (e) {
-      debugPrint('${Consts.storageIOError}.CacheLanguages: ${e.toString()}');
+      if (kDebugMode) {
+        print('${Consts.storageIOError}.CacheLanguages: ${e.toString()}');
+      }
     }
   }
 
@@ -60,9 +64,9 @@ class LocalTranslationStorageImpl extends LocalTranslationStorage {
       final encoded = jsonEncode(translations.map((e) => e.toJson()).toList());
       await _preferences.put(key, encoded);
     } catch (e) {
-      debugPrint(
-        '${Consts.storageIOError}.CacheTranslation: ${e.toString()}',
-      );
+      if (kDebugMode) {
+        print('${Consts.storageIOError}.CacheTranslation: ${e.toString()}');
+      }
     }
   }
 
@@ -88,9 +92,9 @@ class LocalTranslationStorageImpl extends LocalTranslationStorage {
       final decoded = jsonDecode(encoded) as List<dynamic>;
       return decoded.map((e) => Language.fromJson(e)).toList();
     } catch (e) {
-      debugPrint(
-        '${Consts.storageIOError}.GetCachedLanguages: ${e.toString()}',
-      );
+      if (kDebugMode) {
+        print('${Consts.storageIOError}.GetCachedLanguages: ${e.toString()}');
+      }
       return List.empty();
     }
   }
@@ -105,9 +109,11 @@ class LocalTranslationStorageImpl extends LocalTranslationStorage {
       final decoded = jsonDecode(encoded) as List<dynamic>;
       return decoded.map((e) => Translation.fromJson(e)).toList();
     } catch (e) {
-      debugPrint(
-        '${Consts.storageIOError}.GetCachedTranslations: ${e.toString()}',
-      );
+      if (kDebugMode) {
+        print(
+          '${Consts.storageIOError}.GetCachedTranslations: ${e.toString()}',
+        );
+      }
       return List.empty();
     }
   }
