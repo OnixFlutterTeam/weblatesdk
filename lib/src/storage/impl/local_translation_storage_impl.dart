@@ -1,13 +1,19 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:weblate_sdk/src/const.dart';
-import 'package:weblate_sdk/src/storage/hive_storage.dart';
+import 'package:weblate_sdk/src/storage/local_translation_storage.dart';
 import 'package:weblate_sdk/src/storage/mapper/translation_mapper.dart';
 import 'package:weblate_sdk/src/storage/model/language.dart';
 import 'package:weblate_sdk/src/storage/model/translation.dart';
+import 'package:weblate_sdk/src/util/base_preferences.dart';
 import 'package:weblate_sdk/src/util/custom_types.dart';
 
-class HiveStorageImpl extends HiveStorage {
+class LocalTranslationStorageImpl extends LocalTranslationStorage {
+  final BasePreferences _preferences;
+
+  LocalTranslationStorageImpl(this._preferences);
+
   final _translationMapper = TranslationMapper();
 
   @override
@@ -26,7 +32,7 @@ class HiveStorageImpl extends HiveStorage {
     }
     if (kDebugMode) {
       print(
-        '${Const.success}: Got cached translations [${cachedLanguages.map((e) => e.langCode).join(', ')}] for $componentName',
+        '${Consts.success}: Got cached translations [${cachedLanguages.map((e) => e.langCode).join(', ')}] for $componentName',
       );
     }
     return translationsMap;
@@ -37,12 +43,11 @@ class HiveStorageImpl extends HiveStorage {
     required List<Language> languages,
   }) async {
     try {
-      final languageBox = await Hive.openBox<Language>(kLanguagesBox);
-      await languageBox.clear();
-      await languageBox.addAll(languages);
+      final encoded = jsonEncode(languages.map((e) => e.toJson()).toList());
+      await _preferences.put(kLanguagesBox, encoded);
     } catch (e) {
       if (kDebugMode) {
-        print('${Const.storageIOError}: ${e.toString()}');
+        print('${Consts.storageIOError}.CacheLanguages: ${e.toString()}');
       }
     }
   }
@@ -54,13 +59,13 @@ class HiveStorageImpl extends HiveStorage {
     required List<Translation> translations,
   }) async {
     try {
-      final translationBox = await Hive.openBox<Translation>(
-          '$kTranslationsBox$componentName$langCode');
-      await translationBox.clear();
-      await translationBox.addAll(translations);
+      final key = '$kTranslationsBox$componentName$langCode';
+      await _preferences.removePrefByKey(key);
+      final encoded = jsonEncode(translations.map((e) => e.toJson()).toList());
+      await _preferences.put(key, encoded);
     } catch (e) {
       if (kDebugMode) {
-        print('${Const.storageIOError}: ${e.toString()}');
+        print('${Consts.storageIOError}.CacheTranslation: ${e.toString()}');
       }
     }
   }
@@ -83,11 +88,12 @@ class HiveStorageImpl extends HiveStorage {
 
   Future<List<Language>> _getCachedLanguages() async {
     try {
-      final languageBox = await Hive.openBox<Language>(kLanguagesBox);
-      return languageBox.values.toList();
+      final encoded = await _preferences.get(kLanguagesBox, '[]');
+      final decoded = jsonDecode(encoded) as List<dynamic>;
+      return decoded.map((e) => Language.fromJson(e)).toList();
     } catch (e) {
       if (kDebugMode) {
-        print('${Const.storageIOError}: ${e.toString()}');
+        print('${Consts.storageIOError}.GetCachedLanguages: ${e.toString()}');
       }
       return List.empty();
     }
@@ -98,12 +104,15 @@ class HiveStorageImpl extends HiveStorage {
     required String langCode,
   }) async {
     try {
-      final componentBox = await Hive.openBox<Translation>(
-          '$kTranslationsBox$componentName${langCode.toLowerCase()}');
-      return componentBox.values.toList();
+      final encoded = await _preferences.get(
+          '$kTranslationsBox$componentName${langCode.toLowerCase()}', '[]');
+      final decoded = jsonDecode(encoded) as List<dynamic>;
+      return decoded.map((e) => Translation.fromJson(e)).toList();
     } catch (e) {
       if (kDebugMode) {
-        print('${Const.storageIOError}: ${e.toString()}');
+        print(
+          '${Consts.storageIOError}.GetCachedTranslations: ${e.toString()}',
+        );
       }
       return List.empty();
     }

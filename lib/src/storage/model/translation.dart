@@ -1,22 +1,23 @@
-import 'package:hive/hive.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'translation.g.dart';
 
-@HiveType(typeId: 1)
-class Translation extends HiveObject {
-  @HiveField(0)
+@JsonSerializable()
+class Translation {
   final String langCode;
-  @HiveField(1)
   final String translationKey;
-  @HiveField(2)
   final String value;
-  @HiveField(3)
   final String componentName;
 
-  Translation({
+  const Translation({
     required this.langCode,
     required this.translationKey,
     required this.value,
     required this.componentName,
   });
+
+  factory Translation.fromJson(Map<String, dynamic> json) =>
+      _$TranslationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TranslationToJson(this);
 }

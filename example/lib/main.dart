@@ -57,10 +57,16 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.localizedValueOf('tab_home')),
       ),
+      extendBodyBehindAppBar: true,
       body: Center(
-        child: Text(context.localizedValueOf('test_welcoming', format: [
-          'John Doe',
-        ])),
+        child: Text(
+          context.localizedValueOf(
+            'test_welcoming',
+            format: [
+              'John Doe',
+            ],
+          ),
+        ),
       ),
     );
   }

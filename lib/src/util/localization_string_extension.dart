@@ -7,7 +7,7 @@ extension LocalizationStringExtension on String {
   String localizedValueOf(BuildContext context) {
     if (!WebLateSdk.isSDKInitialized) {
       throw WebLateException(
-        cause: Const.notInitialized,
+        cause: Consts.notInitialized,
         message: 'Did you forgot to call WebLate.initialize() in main?',
       );
     }
