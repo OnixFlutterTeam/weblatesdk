@@ -1,5 +1,6 @@
 {
   "@@locale": "en",
   "tab_home": "Home",
-  "letsGo": "Let's Go!"
+  "letsGo": "Let's Go!",
+  "test_welcoming": "This is fallback welcome message."
 }
