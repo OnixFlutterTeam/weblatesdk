@@ -1,3 +1,9 @@
+## 0.2.0
+
+* Updated dependencies
+* Fixed fallback message in example project
+* Changed connectivity check approach
+
 ## 0.1.3
 
 * Update fallback text when not found key 
