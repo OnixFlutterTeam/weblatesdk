@@ -133,7 +133,7 @@ class WebLateClient {
       final uri = Uri.parse(_host);
       final result = await InternetAddress.lookup(uri.host);
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-    } on SocketException catch (e) {
+    } on SocketException catch (_) {
       return false;
     }
   }
