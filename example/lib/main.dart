@@ -57,6 +57,7 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(context.localizedValueOf('tab_home')),
       ),
+      extendBodyBehindAppBar: true,
       body: Center(
         child: Text(
           context.localizedValueOf(
