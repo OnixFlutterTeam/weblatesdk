@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -10,6 +9,7 @@ import 'package:weblate_sdk/src/client/request/translations_request.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/storage/local_translation_storage.dart';
 import 'package:weblate_sdk/src/storage/preferences_storage.dart';
+import 'package:weblate_sdk/src/util/connection_checker.dart';
 import 'package:weblate_sdk/src/util/custom_types.dart';
 import 'package:weblate_sdk/src/util/string_extension.dart';
 
@@ -23,6 +23,7 @@ class WebLateClient {
   final Duration? _cacheLive;
   final LocalTranslationStorage _storage;
   final PreferencesStorage _preferences;
+  final ConnectionChecker _connectionChecker;
   late PersistedRequest<void, List<String>> _componentRequest;
   late PersistedRequest<String, LanguageKeys> _translationsRequest;
 
@@ -34,6 +35,7 @@ class WebLateClient {
     required String defaultLanguage,
     required LocalTranslationStorage storage,
     required PreferencesStorage preferences,
+    required ConnectionChecker connectionChecker,
     bool? disableCache,
     Duration? cacheLive,
   })  : _token = token,
@@ -44,7 +46,8 @@ class WebLateClient {
         _storage = storage,
         _preferences = preferences,
         _disableCache = disableCache,
-        _cacheLive = cacheLive {
+        _cacheLive = cacheLive,
+        _connectionChecker = connectionChecker {
     final client = Dio(
       BaseOptions(
         baseUrl: _host,
@@ -129,13 +132,7 @@ class WebLateClient {
   }
 
   Future<bool> _hasConnection() async {
-    try {
-      final uri = Uri.parse(_host);
-      final result = await InternetAddress.lookup(uri.host);
-      return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-    } on SocketException catch (_) {
-      return false;
-    }
+    return _connectionChecker.hasConnection();
   }
 
   int _cacheLiveTimeMillis() =>
