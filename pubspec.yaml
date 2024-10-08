@@ -1,10 +1,10 @@
 name: weblate_sdk
 description: Unofficial WebLate SDK. Designed to work with WebLate web-based continuous localization system.
-version: 0.2.0
+version: 0.2.1
 homepage: https://github.com/OnixFlutterTeam/weblatesdk
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
   flutter: ">=3.10.0"
 
 dependencies:
@@ -17,6 +17,8 @@ dependencies:
   json_annotation: ^4.9.0
   shared_preferences: ^2.2.3
   dio: ^5.7.0
+  connectivity_plus: ^6.0.5
+  internet_connection_checker_plus: ^2.5.2
 
 dev_dependencies:
   flutter_test:

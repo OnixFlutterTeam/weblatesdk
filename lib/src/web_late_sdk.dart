@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:weblate_sdk/src/client/weblate_client.dart';
 import 'package:weblate_sdk/src/const.dart';
 import 'package:weblate_sdk/src/storage/impl/local_translation_storage_impl.dart';
 import 'package:weblate_sdk/src/storage/impl/preferences_storage_impl.dart';
 import 'package:weblate_sdk/src/util/base_preferences.dart';
+import 'package:weblate_sdk/src/util/connection_checker_impl.dart';
 import 'package:weblate_sdk/src/util/custom_types.dart';
 import 'package:weblate_sdk/src/web_late_localization_delegate.dart';
 
@@ -82,6 +85,10 @@ class WebLateSdk {
       preferences: preferences,
       disableCache: disableCache,
       cacheLive: cacheLive,
+      connectionChecker: ConnectionCheckerImpl(
+        internetConnection: InternetConnection(),
+        connectivity: Connectivity(),
+      ),
     );
 
     _translations = await _client.initialize();

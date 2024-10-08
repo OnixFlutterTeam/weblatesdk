@@ -1,3 +1,7 @@
+## 0.2.1
+
+* Added Connectivity and InternetConnectionCheckerPlus dependencies
+
 ## 0.2.0
 
 * Updated dependencies
