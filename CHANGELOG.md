@@ -1,3 +1,9 @@
+## 0.2.2
+
+* Updated dependencies
+* Migrated to gradle 8
+* Added env variables to Example project
+
 ## 0.2.1
 
 * Added Connectivity and InternetConnectionCheckerPlus dependencies

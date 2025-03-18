@@ -1,0 +1,2 @@
+/Users/dmitriy-onix/Documents/flutter_project/CURRENT_WORK/weblatesdk/example/android/app/.cxx/Debug/2k6i4d2x/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Users/dmitriy-onix/Documents/flutter_project/CURRENT_WORK/weblatesdk/example/android/app/.cxx/Debug/2k6i4d2x/armeabi-v7a/CMakeFiles/rebuild_cache.dir
