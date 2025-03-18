@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/Users/dmitriy-onix/development_flutter_src/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/dmitriy-onix/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/dmitriy-onix/Documents/flutter_project/CURRENT_WORK/weblatesdk/example/android/app/.cxx/Debug/2k6i4d2x/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/dmitriy-onix/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/dmitriy-onix/Documents/flutter_project/CURRENT_WORK/weblatesdk/example/android/app/.cxx/Debug/2k6i4d2x/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

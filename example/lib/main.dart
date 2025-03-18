@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:weblate_sdk/weblate_sdk.dart';
+import 'package:weblate_sdk_example/env.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Env.init();
+
   await WebLateSdk.initialize(
-    token: 'your token',
-    host: 'your host',
-    projectName: 'name of project',
-    componentName: 'name of component',
+    //your token
+    token: Env.token,
+    //your host it must start with https://
+    host: Env.host,
+    //name of project
+    projectName: Env.projectName,
+    //name of component
+    componentName: Env.componentName,
     defaultLanguage: 'en',
     disableCache: false,
     //optional
